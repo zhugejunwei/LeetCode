@@ -22,7 +22,6 @@ import Darwin
 import Darwin
 
 func uniquePaths(m: Int, _ n: Int) -> Int {
-    if m > n { return uniquePaths(n, m) }
     var record = Array(count: n, repeatedValue: 1)
     for _ in 1..<m {
         for col in 1..<n {
