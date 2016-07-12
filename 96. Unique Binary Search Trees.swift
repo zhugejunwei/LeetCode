@@ -14,5 +14,4 @@ func numTrees(n: Int) -> Int {
     return array[n]
 }
 
-
 numTrees(2)
