@@ -70,23 +70,24 @@ func majorityElement(nums: [Int]) -> Int {
  */
 
 
-// Bit manipulation, can't deal with nagetive nums, to be modified.
+// Bit manipulation, 116 ms
 
-//func majorityElement(nums: [Int]) -> Int {
-//    var bit = Array(count: 32, repeatedValue: 0)
-//    for num in nums {
-//        for i in 0..<32 {
-//            if (num>>(31-i) & 1) == 1 {
-//                bit[i] += 1
-//            }
-//        }
-//    }
-//    var ret = 0
-//    for i in 0..<32 {
-//        bit[i] = bit[i]>nums.count/2 ? 1 : 0
-//        ret += bit[i] * (1<<(31-i))
-//    }
-//    return ret
-//}
+func majorityElement(nums: [Int]) -> Int {
+    let numBits = sizeof(Int) * 8
+    var bit = Array(count: numBits, repeatedValue: 0)
+    for num in nums {
+        for i in 0..<numBits {
+            if (num>>(numBits-1-i) & 1) == 1 {
+                bit[i] += 1
+            }
+        }
+    }
+    var ret = 0
+    for i in 0..<numBits {
+        bit[i] = bit[i]>nums.count/2 ? 1 : 0
+        ret += bit[i] * (1<<(numBits-1-i))
+    }
+    return ret
+}
 
 
