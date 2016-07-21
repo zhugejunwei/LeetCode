@@ -90,4 +90,16 @@ func majorityElement(nums: [Int]) -> Int {
     return ret
 }
 
+// Bit Manipulation in a more Swifty way, 1160 ms
+
+func majorityElement(nums: [Int]) -> Int {
+    let numBits = sizeof(Int) * 8
+    let bitCounts = (0 ..< numBits).map { i in
+        nums.reduce(0) { $0 + ($1 >> i) & 1 }
+    }
+    let major = (0 ..< numBits).reduce(0) {
+        $0 | (bitCounts[$1] > nums.count/2 ? 1 << $1 : 0)
+    }
+    return major
+}
 

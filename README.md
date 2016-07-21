@@ -1,3 +1,3 @@
 # LeetCode
 
-### Solving LeetCode Algrithms questions in Swift
+### Solving LeetCode Algrithms questions in Swift, some in C++.
