@@ -1,81 +1,59 @@
+/* My first solution, interesting solution.
+ left to right
+ top to bot
+ max area
+ */
+
+
+import Darwin
+
 /*
- This question has a wrong test case:
- 
- ["000","000","000","000"], this is not [[Character]]
- 
- So I can't figure out whether my solution is right or not.
  
  Another solution: using area = (right - left) * height, this is also a smart solution.
  
  */
 
-import Darwin
-
+// 176 ms
 func maximalRectangle(matrix: [[Character]]) -> Int {
     if matrix.isEmpty {
         return 0
     }
-    let row = matrix.count
-    let col = matrix[0].count
-    var max = 0
-    var count = Array(count: row, repeatedValue: Array(count: col, repeatedValue: 0))
-    // count assign values
-    for i in 0..<row {
-        for j in 0..<row {
+    let m = matrix.count
+    let n = matrix[0].count
+    var left = Array(count: n, repeatedValue: 0)
+    var right = Array(count: n, repeatedValue: n)
+    var height = Array(count: n, repeatedValue: 0)
+    var maxA = 0
+    for i in 0..<m {
+        var curLeft = 0, curRight = n
+        // height, left
+        for j in 0..<n {
             if matrix[i][j] == "1" {
-                count[i][j] = 1
-            }
-        }
-    }
-    // boundary cases
-    if row == 1 && col == 1 {
-        return matrix[0][0] == "1" ? 1 : 0
-    }
-    if row == 1 {
-        for j in 1..<col {
-            count[0][j] += (count[0][j] == 0 || count[0][j-1] == 0) ? 0 : count[0][j-1]
-        }
-        return count[0].maxElement()!
-    }
-    if col == 1{
-        for i in 1..<row {
-            count[i][0] += (count[i][0] == 0 || count[i-1][0] == 0) ? 0 : count[i-1][0]
-            if count[i][0] > max {
-                max = count[i][0]
-            }
-        }
-        return max
-    }
-    // left to right sum
-    for i in 0..<row {
-        for j in 1..<col {
-            count[i][j] += (count[i][j] == 0 || count[i][j-1] == 0) ? 0 : count[i][j-1]
-        }
-    }
-    // top to bottom sum
-    var cur = count[1][0]
-    var pre = count[0][0]
-    for j in 0..<col {
-        for i in 1..<row {
-            cur = count[i][j]
-            if pre == cur {
-                count[i][j] += count[i-1][j]
+                height[j] += 1
+                left[j] = max(left[j], curLeft)
             }else {
-                count[i][j] = count[i][j] + count[i-1][j] - abs(count[i][j] - count[i-1][j])
-            }
-            pre = cur
-        }
-    }
-    // get the MAX value
-    for i in 0..<row {
-        for j in 0..<col {
-            if count[i][j] > max {
-                max = count[i][j]
+                height[j] = 0
+                left[j] = 0
+                curLeft = j + 1
             }
         }
+        // right
+        var k = n - 1
+        while k >= 0 {
+            if matrix[i][k] == "1" {
+                right[k] = min(right[k], curRight)
+            }else {
+                right[k] = n
+                curRight = k
+            }
+            k -= 1
+        }
+        // area
+        for j in 0..<n {
+            maxA = max(maxA, (right[j] - left[j]) * height[j])
+        }
     }
-    return max
+    return maxA
 }
 
-var a: [[Character]] = ["000","000","000","000"]
-maximalRectangle(a)
+

@@ -83,7 +83,7 @@ func helper(head: ListNode?) -> Int {
 }
 
 
-// recursion without Helper, 48 ms
+// last 9s -> 0s, last !9 -> +1, all 9s -> 1 + 0...0, using two nodes to find and record the last 9, using dummy node to store the first node, 48 ms
 
 func plusOne(head: ListNode?) -> ListNode? {
     let dummy = ListNode(0)
